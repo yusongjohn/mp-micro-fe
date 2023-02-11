@@ -17,7 +17,7 @@ const handler = function (appConfig) {
 }
 
 const stepsCount = 6;
-module.exports = async function compile(configFilePath) {
+module.exports = function compile(configFilePath) {
     // 1. get the compile config
     const buildConfig = getBuildConfig(configFilePath);
     console.log(`step 1/${stepsCount} done`)
@@ -31,7 +31,7 @@ module.exports = async function compile(configFilePath) {
     appsConfig.forEach(handler)
 
     // 3. process every single app
-    await Promise.all(appsConfig.map(processSingleApp))
+    appsConfig.map(processSingleApp)
     console.log(`step 3/${stepsCount} done`)
 
     // 4.begin to merge all app to one

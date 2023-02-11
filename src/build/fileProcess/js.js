@@ -47,7 +47,7 @@ module.exports = {
         // 2. inject to all js file
         const files = getAllJsFile(currentWorkPath, appConfig.ignore)
 
-        return Promise.all(files.map(async (file) => {
+        files.map((file) => {
             const filePath = path.resolve(currentWorkPath, file);
             const runtimeRelativePath = path.relative(path.dirname(filePath), targetRuntimePath);
             let source = fsExtra.readFileSync(filePath, 'utf8');
@@ -62,6 +62,6 @@ module.exports = {
 
             source = `!(function(runtime){\n${injectGlobalVariable.join('\n')}\n;${source} })(require('${runtimeRelativePath}/index.js'))`
             fsExtra.writeFileSync(filePath, source, 'utf8');
-        }))
+        })
     }
 }
