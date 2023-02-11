@@ -1,5 +1,6 @@
 const path = require('path')
 const fsExtra = require("fs-extra");
+const utils = require('../utils')
 
 function travelUsingComponents(mpJson, projectTargetPath, parentFilePath, afterHandler) {
     if (!mpJson.usingComponents) {
@@ -11,21 +12,18 @@ function travelUsingComponents(mpJson, projectTargetPath, parentFilePath, afterH
     }
 
     for (let componentTag in usingComponents) {
-        let referencePath = usingComponents[componentTag]
-        let fileLocalPath = '';
-        if (path.isAbsolute(referencePath)) {
-            fileLocalPath = path.resolve(projectTargetPath, `${projectTargetPath}/${referencePath}`)
-        } else {
-            fileLocalPath = path.resolve(path.dirname(parentFilePath), referencePath)
-        }
-        referencePath = path.relative(projectTargetPath, fileLocalPath); // 全部转为相对路径，则不需要考虑namespace问题
+        const {
+            referencePath,
+            localPath
+        } = utils.getRelativePath(projectTargetPath, parentFilePath, usingComponents[componentTag]);
+
         usingComponents[componentTag] = referencePath;
 
         // 组件引用的组件
-        const componentJson = fsExtra.readJsonSync(`${fileLocalPath}.json`);
+        const componentJson = fsExtra.readJsonSync(`${localPath}.json`);
         travelUsingComponents(componentJson, projectTargetPath, parentFilePath, afterHandler)
     }
-    afterHandler && afterHandler(mpJson)
+    afterHandler && afterHandler(mpJson, parentFilePath)
 }
 
 
@@ -44,8 +42,14 @@ module.exports = {
         allPages.forEach(function (page) {
             const pageJsonPath = path.resolve(projectTargetPath, `${page}.json`);
             const pageJson = fsExtra.readJsonSync(pageJsonPath);
-            travelUsingComponents(pageJson, projectTargetPath, pageJsonPath, function (json) {
-                json.usingComponents = Object.assign(json.usingComponents, globalComponents);
+            travelUsingComponents(pageJson, projectTargetPath, pageJsonPath, function (mpJson, jsonFilePath) {
+                const usingComponents = Object.assign(mpJson.usingComponents, globalComponents);
+                for (key in usingComponents) {
+                    const orignRelativePath = usingComponents[key];
+                    usingComponents[key] = `/${appConfig.namespace}/${orignRelativePath}` // 转为绝对路径（小程序根目录）
+                }
+                mpJson.usingComponents = usingComponents;
+                fsExtra.outputJsonSync(jsonFilePath, mpJson, {spaces: 2});
             })
         });
     }

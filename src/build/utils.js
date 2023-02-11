@@ -23,7 +23,20 @@ module.exports = {
         subPackages.forEach(handler)
         return allPages;
     },
-    relativeFilePath: function (fromFile, toFile, rootDir) {
-        return path.isAbsolute(toFile) ? path.relative(path.dirname(fromFile), path.resolve(rootDir, `.${toFile}`)) : toFile;
+    getRelativePath: function (currentWorkPath, parentLocalPath, referencePath) {
+        let localPath = '';
+        if (referencePath) {
+            try {
+                if (path.isAbsolute(referencePath)) {
+                    localPath = path.resolve(currentWorkPath, `${currentWorkPath}/${referencePath}`)
+                } else {
+                    localPath = path.resolve(path.dirname(parentLocalPath), referencePath)
+                }
+                // 全部转为相对路径的相对
+                referencePath = path.relative(currentWorkPath, localPath);
+            } catch (e) {
+            }
+        }
+        return {referencePath, localPath};
     }
 }

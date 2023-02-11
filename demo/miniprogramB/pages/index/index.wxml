@@ -1,6 +1,11 @@
 <!--index.wxml-->
+<import src="../item.wxml"/>
+
+
 <view class="container">
-index {{type}}
- <componentA></componentA>
- <componentAGlobal></componentAGlobal>
+<!--    <template is="item" data="{{text: 'forbar'}}"/>-->
+
+    index {{type}}
+    <componentB></componentB>
+    <componentBGlobal></componentBGlobal>
 </view>

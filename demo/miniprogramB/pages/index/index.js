@@ -6,10 +6,10 @@ Page({
         type: 'B'
     },
     onLoad() {
-        setTimeout(() => {
-            wx.navigateTo({
-                url: '/pages/secondPage/index',
-            })
-        }, 1 * 1000)
+        // setTimeout(() => {
+        //     wx.navigateTo({
+        //         url: '/pages/secondPage/index',
+        //     })
+        // }, 1 * 1000)
     }
 })

@@ -22,16 +22,16 @@
         "myPlugin-pkg-share": {
           "version": "1.0.0",
           "provider": "myPlugin-pkg-share"
-        },
+          },
         "myPlugin-pkg-b-own": {
           "version": "1.0.0",
-          "provider": "myPlugin-pkg-share"
+          "provider": "myPlugin-pkg-b-own"
         }
       }
     }
   ],
   "usingComponents": {
-    "componentAGlobal": "./components/componentAGlobal/index"
+    "componentBGlobal": "./components/componentBGlobal/index"
   },
   "preloadRule": {
     "pages/logs/logs": {

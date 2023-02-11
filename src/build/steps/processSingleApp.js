@@ -27,7 +27,5 @@ module.exports = async function (appConfig) {
 
         extendAppWindow(appConfig);
         delete appConfig.appJson.window; // 否则会影响其他子应用
-
-        modifyComponentReferencePath(appConfig)
     }
 }

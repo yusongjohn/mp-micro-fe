@@ -34,7 +34,7 @@
   "plugins": {
     "myPlugin-main-share": {
       "version": "1.0.0",
-      "provider": "plugin-a"
+      "provider": "myPlugin-main-share"
     }
   },
   "preloadRule": {

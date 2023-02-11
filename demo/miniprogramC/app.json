@@ -15,11 +15,11 @@
     "plugins": {
         "myPlugin-main-share": {
             "version": "1.0.0",
-            "provider": "plugin-c-1"
+            "provider": "myPlugin-main-share"
         },
         "myPlugin-main-c": {
             "version": "1.0.0",
-            "provider": "plugin-a"
+            "provider": "myPlugin-main-c"
         }
     },
     "usingComponents": {
