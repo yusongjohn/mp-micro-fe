@@ -16,12 +16,10 @@ module.exports = {
             const parentFilePath = path.resolve(currentWorkPath, file);
             const content = fsExtra.readFileSync(parentFilePath, 'utf8');
 
-            const createGetPath = (currentWorkPath, parentFilePath) => (referencePath) => {
+            const _getPath = function (referencePath) {
                 const relativePath = utils.getRelativePath(currentWorkPath, parentFilePath, referencePath).referencePath
                 return `/${appConfig.namespace}/${relativePath}`
             }
-            const _getPath = createGetPath(currentWorkPath, parentFilePath)
-
 
             const replaceContent = content
                 .replace(/(<import [^>]*)src="([^"]+)"([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}src="${_getPath($2)}"${$3}`)
@@ -30,16 +28,8 @@ module.exports = {
                 .replace(/(<include [^>]*)src='([^']+)'([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}src='${_getPath($2)}'${$3}`)
                 .replace(/(<image [^>]*)src="([^"]+)"([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}src="${_getPath($2)}"${$3}`)
                 .replace(/(<image [^>]*)src='([^']+)'([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}src='${_getPath($2)}'${$3}`)
-                .replace(/(<navigator [^>]*)url="([^"]+)"([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}url="${getPagePath({
-                    pages: allPages,
-                    router,
-                    originPath: $2
-                })}"${$3}`)
-                .replace(/(<navigator [^>]*)url='([^']+)'([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}url='${getPagePath({
-                    pages: allPages,
-                    router,
-                    originPath: $2
-                })}'${$3}`);
+                .replace(/(<navigator [^>]*)url="([^"]+)"([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}url="${_getPath($2)}"${$3}`)
+                .replace(/(<navigator [^>]*)url='([^']+)'([^>]*>)/gi, ($0, $1, $2, $3) => `${$1}url='${_getPath($2)}'${$3}`);
 
             fsExtra.writeFileSync(parentFilePath, replaceContent, 'utf8');
         }

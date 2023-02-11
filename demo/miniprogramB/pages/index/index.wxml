@@ -4,6 +4,8 @@
 
 <view class="container">
 <!--    <template is="item" data="{{text: 'forbar'}}"/>-->
+    <navigator url="/pages/secondPage/index" hover-class="navigator-hover">跳转到新页面</navigator>
+    <navigator url="/pages/logs/logs" open-type="switchTab" hover-class="other-navigator-hover">切换 Tab</navigator>
 
     index {{type}}
     <componentB></componentB>
