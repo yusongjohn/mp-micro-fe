@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle": "black"
+  },
+  "useExtendedLib": {
+    "kbone": true
+  },
+  "subPackages": [
+    {
+      "root": "pages/secondPage",
+      "pages": [
+        "index"
+      ],
+      "plugins": {
+        "myPlugin-pkg-share": {
+          "version": "1.0.0",
+          "provider": "myPlugin-pkg-share"
+        },
+        "myPlugin-pkg-b-own": {
+          "version": "1.0.0",
+          "provider": "myPlugin-pkg-share"
+        }
+      }
+    }
+  ],
+  "usingComponents": {
+    "componentAGlobal": "./components/componentAGlobal/index"
+  },
+  "preloadRule": {
+    "pages/logs/logs": {
+      "packages": [
+        "pages/secondPage"
+      ]
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

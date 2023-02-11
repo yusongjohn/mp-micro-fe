@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+      "componentA": "../../components/componentA/index"
+  },
+  "backgroundTextStyle": "light"
+}

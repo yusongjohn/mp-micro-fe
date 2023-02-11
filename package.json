@@ -1,0 +1,20 @@
+{
+  "name": "mp-micro-front-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./demo/test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "anymatch": "^3.1.3",
+    "fs-extra": "^11.1.0",
+    "glob": "^8.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0"
+  }
+}

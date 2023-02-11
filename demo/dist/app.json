@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/index/index",
+    "b/pages/index/index",
+    "b/pages/logs/logs",
+    "c/pages/index/index",
+    "c/pages/logs/logs"
+  ],
+  "requiredBackgroundModes": [
+    "audio",
+    "location"
+  ],
+  "useExtendedLib": {
+    "weui": true,
+    "kbone": true
+  },
+  "usingComponents": {
+    "componentAGlobal": "components/componentAGlobal/index"
+  },
+  "subPackages": [
+    {
+      "root": "pages/logs",
+      "pages": [
+        "logs"
+      ],
+      "plugins": {}
+    },
+    {
+      "root": "b/pages/secondPage",
+      "pages": [
+        "index"
+      ],
+      "plugins": {
+        "myPlugin-pkg-b-own": {
+          "version": "1.0.0",
+          "provider": "myPlugin-pkg-share"
+        }
+      }
+    }
+  ],
+  "plugins": {
+    "myPlugin-main-share": {
+      "version": "1.0.0",
+      "provider": "plugin-a"
+    },
+    "myPlugin-main-c": {
+      "version": "1.0.0",
+      "provider": "plugin-a"
+    },
+    "myPlugin-pkg-share": {
+      "version": "1.0.0",
+      "provider": "myPlugin-pkg-share"
+    }
+  },
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": [
+        "pages/logs"
+      ]
+    },
+    "b/pages/logs/logs": {
+      "packages": [
+        "b/pages/secondPage"
+      ]
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "functionalPages": false,
+  "permission": {}
+}

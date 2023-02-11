@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="container">
+index {{type}}
+ <componentA></componentA>
+ <componentAGlobal></componentAGlobal>
+</view>

@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="container">
+    secondPage {{type}}
+ <componentA></componentA>
+ <componentAGlobal></componentAGlobal>
+</view>
