@@ -31,10 +31,13 @@ function processMainApp(appConfig) {
     injectIsolationLogic(appConfig);
 }
 
-module.exports = function (appConfig) {
+module.exports = function (appConfig, singleAppHandlers) {
+    singleAppHandlers = singleAppHandlers || []
     if (!appConfig.namespace) { // 主应用
         processMainApp(appConfig)
     } else { // 子应用
         processSubApp(appConfig)
     }
+
+    singleAppHandlers && singleAppHandlers.forEach(handler => handler(appConfig))
 }

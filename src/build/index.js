@@ -4,8 +4,9 @@ const utils = require("./utils");
 const getBuildConfig = require('./steps/buildOptions');
 const initiateWorkspace = require('./steps/initiateWorkspace')
 const processSingleApp = require('./steps/processSingleApp')
-const genFinalAppJsonFile = require('./finalAppJson')
+const genFinalAppJsonFile = require('./defaultAppJsonHandlers')
 const genDist = require('./steps/genDist')
+const defaultAppJsonHandlers = require('./defaultAppJsonHandlers/defaults')
 
 const handler = function (appConfig) {
     const appJsonPath = path.resolve(appConfig.projectTargetPath, 'app.json');
@@ -17,13 +18,16 @@ const handler = function (appConfig) {
 }
 
 const stepsCount = 6;
-module.exports = function compile(configFilePath) {
+module.exports = function compile(configFilePath, intercepts) {
+    // 需要校验 intercepts 参数是否合法，暂不处理
+    if (!intercepts) intercepts = {};
+
     // 1. get the compile config
-    const buildConfig = getBuildConfig(configFilePath);
+    const buildConfig = getBuildConfig(configFilePath, (intercepts.config || []));
     console.log(`step 1/${stepsCount} done`)
 
     // 2. prepare the workspace
-    initiateWorkspace(buildConfig);
+    initiateWorkspace(buildConfig, (intercepts.workspace || []));
     console.log(`step 2/${stepsCount} done`)
 
     // mount app's allPages and appJson attributes to appConfig
@@ -31,15 +35,16 @@ module.exports = function compile(configFilePath) {
     appsConfig.forEach(handler)
 
     // 3. process every single app
-    appsConfig.map(processSingleApp)
+    appsConfig.map(appConfig => processSingleApp(appConfig, (intercepts.singleApp || [])),)
     console.log(`step 3/${stepsCount} done`)
 
     // 4.begin to merge all app to one
-    genFinalAppJsonFile(appsConfig);
+    const appJsonHandlers = (intercepts.appJson || [])
+    genFinalAppJsonFile(appsConfig, [...appJsonHandlers, ...defaultAppJsonHandlers]);
     console.log(`step 4/${stepsCount} done`)
 
     // 5. generate dist
-    genDist(buildConfig)
+    genDist(buildConfig, (intercepts.dist || []))
     console.log(`step 5/${stepsCount} done`)
 
     // 6. remove workspace

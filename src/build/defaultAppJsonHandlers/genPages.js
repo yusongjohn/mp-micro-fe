@@ -2,7 +2,7 @@ const subPkgKey = 'subPackages';
 
 module.exports = {
     subPkgKey,
-    genSubPages: function (appsConfig) {
+    genSubPages: function (appsConfig, finalAppJson) {
         const subApps = appsConfig.filter(appConfig => appConfig.namespace);
 
         // the pages of sub app should migrate to mainAppJson.pages
@@ -13,9 +13,9 @@ module.exports = {
             const currentSubAppPages = subAppJson.pages.map(page => `${appConfig.namespace}/${page}`)
             subAppPages.push(...currentSubAppPages)
         });
-        return subAppPages
+        finalAppJson.pages.push(...subAppPages)
     },
-    genSubPackages: function (appsConfig) {
+    genSubPackages: function (appsConfig, finalAppJson) {
         const subApps = appsConfig.filter(appConfig => appConfig.namespace);
 
         const mainAppJson = appsConfig[0].appJson;
@@ -33,6 +33,6 @@ module.exports = {
             subAppSubPkgs.push(..._tmp)
         });
         // collect all sub packages, then update the subPackages's value in mainAppJson
-        return subPkgsOfMain.concat(subAppSubPkgs)
+        finalAppJson[subPkgKey] = subPkgsOfMain.concat(subAppSubPkgs)
     }
 }

@@ -31,7 +31,7 @@ function getSubAppPreloadRule(subAppConfig) {
     return newPreloadRule;
 }
 
-module.exports = function (appsConfig) {
+module.exports = function (appsConfig, finalAppJson) {
     const mainAppJson = appsConfig[0].appJson
     const preloadRuleOfMain = mainAppJson.preloadRule || {};
 
@@ -42,7 +42,7 @@ module.exports = function (appsConfig) {
     // 合并为一个对象，由于每个子应用的namespace不一样，因此不会冲突
     subAppsPreloadRule.forEach(item => Object.assign(subAppPreloadRules, item))
 
-    return {
+    finalAppJson.preloadRule = {
         ...preloadRuleOfMain,
         ...subAppPreloadRules,
     };

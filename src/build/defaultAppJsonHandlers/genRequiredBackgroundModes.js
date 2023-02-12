@@ -1,9 +1,9 @@
-module.exports = function genRequiredBackgroundModes(appsConfig) {
+module.exports = function genRequiredBackgroundModes(appsConfig, finalAppJson) {
     const bgModes = [];
     appsConfig.forEach(function (appConfig) {
         const appJson = appConfig.appJson;
         const modes = appJson.requiredBackgroundModes || []
         bgModes.push(...modes)
     })
-    return Array.from(new Set(bgModes))
+    finalAppJson.requiredBackgroundModes = Array.from(new Set(bgModes))
 }

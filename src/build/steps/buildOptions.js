@@ -25,7 +25,7 @@ function validateConfig(userConfig) {
 }
 
 const ignore = ['**/node_modules', '**/.git', '**/*.map'];
-module.exports = function (configFilePath) {
+module.exports = function (configFilePath, configsHandlers) {
     const userConfig = require(configFilePath)
     let workspace = userConfig.workspace;
     userConfig.distDir = path.resolve(userConfig.workspace, 'dist'); // 最终产物的目录
@@ -39,6 +39,8 @@ module.exports = function (configFilePath) {
     userConfig.apps.map(handler);
 
     validateConfig(userConfig)
+
+    configsHandlers && configsHandlers.forEach(handler => handler(userConfig))
 
     return userConfig
 }

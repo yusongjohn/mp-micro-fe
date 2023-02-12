@@ -37,9 +37,11 @@ function copySubApp(distDir, appConfig) {
     });
 }
 
-module.exports = function (buildConfig) {
+module.exports = function (buildConfig, distHandlers) {
     const appsConfig = buildConfig.apps;
     fsExtra.emptydirSync(buildConfig.distDir)
+
+    distHandlers && distHandlers.forEach(handler => distHandlers(buildConfig));
 
     copyMainApp(buildConfig.distDir, appsConfig[0]);
     for (let i = 1; i < appsConfig.length; i++) {

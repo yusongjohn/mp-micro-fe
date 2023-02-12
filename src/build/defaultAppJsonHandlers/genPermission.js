@@ -1,4 +1,4 @@
-module.exports = function (appsConfig) {
+module.exports = function (appsConfig, finalAppJson) {
     const mainAppJson = appsConfig[0].appJson
     const mainAppPermission = {...mainAppJson.permission}
 
@@ -11,7 +11,7 @@ module.exports = function (appsConfig) {
         }
     })
 
-    return {
+    finalAppJson.permission = {
         ...res,
         ...mainAppPermission // the main app's permission has higher priority
     };

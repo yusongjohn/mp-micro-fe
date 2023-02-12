@@ -3,7 +3,7 @@ const path = require('path')
 const utils = require('../utils')
 
 
-module.exports = function (buildOptions) {
+module.exports = function (buildOptions, workspaceHandlers) {
     const workspace = buildOptions.workspace;
     fsExtra.emptyDirSync(workspace);
     fsExtra.emptyDirSync(buildOptions.distDir);
@@ -14,5 +14,7 @@ module.exports = function (buildOptions) {
         const targetPath = path.resolve(workspace, id)
         fsExtra.copySync(projectDir, targetPath, {filter: utils.createCopyFilter(ignore)});
     });
+
+    workspaceHandlers && workspaceHandlers.forEach(handler => handler(buildOptions))
 }
 

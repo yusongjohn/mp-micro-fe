@@ -1,4 +1,4 @@
-module.exports = function (appsConfig) {
+module.exports = function (appsConfig, finalAppJson) {
     const extendedLib = {};
     appsConfig.forEach(function (appConfig) {
         const useExtendedLib = appConfig.appJson.useExtendedLib || {}
@@ -8,5 +8,5 @@ module.exports = function (appsConfig) {
             }
         }
     })
-    return extendedLib;
+    finalAppJson.useExtendedLib = extendedLib;
 }
