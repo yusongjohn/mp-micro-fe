@@ -4,20 +4,19 @@ const {modifyWxmlReferencePath} = require("../fileProcess/wxml");
 const {modifyComponentReferencePath} = require("../fileProcess/json");
 
 async function processSubApp(appConfig) {
-    // 1. 样式相关：wxss and json.window
-    extendAppWxss(appConfig); // 子应用的app.wxss样式不生效，所有的wxss文件需要@import子应用的app.wxss，
-    // 子应用的 window 处理？
+    // 1. style isolation：wxss and json.window
+    extendAppWxss(appConfig);
     extendAppWindow(appConfig)
 
-    // 2. js 相关
-    // 给所有的js文件注入隔离逻辑（sandbox）
+    // 2. js isolation
+    // Inject isolation logic into all js files (sandbox)
     injectIsolationLogic(appConfig);
     addAppEntry(appConfig);
 
-    // 3. wxml 文件修改
+    // 3. modify the path referenced by wxml
     modifyWxmlReferencePath(appConfig);
 
-    // 4. json modifyComponentReferencePath
+    // 4.  modify the path referenced by json.usingComponent
     modifyComponentReferencePath(appConfig)
 }
 
