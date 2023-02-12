@@ -30,7 +30,7 @@ routerMethods.handler = function (methodName, rest, injectInfo) {
     }
 }
 
-// 如果开发者注意命名规则，可以不改写
+// 如果开发者注意命名规则，可以不改写，其实我倾向非必要不改写
 storageMethods.handler = function (methodName, rest, injectInfo) {
     // TODO 为了防止缓存数据冲突，应该要对缓存数据的key做处理
     // 比如类似处理

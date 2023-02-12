@@ -10,10 +10,9 @@ async function processSubApp(appConfig) {
     extendAppWindow(appConfig)
 
     // 2. js 相关
-    injectIsolationLogic(appConfig); // 给所有的js文件注入隔离逻辑（sandbox）
-
-    // 需要等上面工作完成，再注入
-    addAppEntry(appConfig); // 给分包js文件注入应用入口（因为分包app.js已经不会执行了）// DONE
+    // 给所有的js文件注入隔离逻辑（sandbox）
+    injectIsolationLogic(appConfig);
+    addAppEntry(appConfig);
 
     // 3. wxml 文件修改
     modifyWxmlReferencePath(appConfig);
@@ -26,9 +25,10 @@ async function processSubApp(appConfig) {
 function processMainApp(appConfig) {
     // 1. 防止主应用app.wxss影响子应用，同样删除主应用app.wxss（修改文件名为 app.xxx.wxss 就自动失效了），然后注入到主应用的所有页面中（组件不需要，组件默认受页面影响）
     extendAppWxss(appConfig);
-
     extendAppWindow(appConfig);
     delete appConfig.appJson.window; // 否则会影响其他子应用
+
+    injectIsolationLogic(appConfig);
 }
 
 module.exports = function (appConfig) {

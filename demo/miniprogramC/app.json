@@ -12,16 +12,6 @@
     "requiredBackgroundModes": [
         "location"
     ],
-    "plugins": {
-        "myPlugin-main-share": {
-            "version": "1.0.0",
-            "provider": "myPlugin-main-share"
-        },
-        "myPlugin-main-c": {
-            "version": "1.0.0",
-            "provider": "myPlugin-main-c"
-        }
-    },
     "usingComponents": {
         "componentAGlobal": "./components/componentAGlobal/index"
     },

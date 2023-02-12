@@ -22,21 +22,9 @@
       "root": "pages/logs",
       "pages": [
         "logs"
-      ],
-      "plugins": {
-        "myPlugin-pkg-share": {
-          "version": "1.0.0",
-          "provider": "myPlugin-pkg-share"
-        }
-      }
+      ]
     }
   ],
-  "plugins": {
-    "myPlugin-main-share": {
-      "version": "1.0.0",
-      "provider": "myPlugin-main-share"
-    }
-  },
   "preloadRule": {
     "pages/index/index": {
       "network": "all",
