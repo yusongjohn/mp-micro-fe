@@ -4,9 +4,9 @@ const utils = require("./utils");
 const getBuildConfig = require('./steps/buildOptions');
 const initiateWorkspace = require('./steps/initiateWorkspace')
 const processSingleApp = require('./steps/processSingleApp')
-const genFinalAppJsonFile = require('./defaultAppJsonHandlers')
+const genFinalAppJsonFile = require('./steps/generateAppJson')
 const genDist = require('./steps/genDist')
-const defaultAppJsonHandlers = require('./defaultAppJsonHandlers/defaults')
+const defaultAppJsonHandlers = require('./defaultAppJsonHandlers')
 
 const handler = function (appConfig) {
     const appJsonPath = path.resolve(appConfig.projectTargetPath, 'app.json');

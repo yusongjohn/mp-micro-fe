@@ -42,7 +42,7 @@ module.exports = {
         const namespace = JSON.stringify(appConfig.namespace);
         const injectConde = `const injectInfo = {pages: ${pagesStr}, namespace: ${namespace} }\n;`
         runtimeSource = `${injectConde}\n ${runtimeSource}`;
-        fsExtra.writeFileSync(`${targetRuntimePath}/index.js`, runtimeSource, 'utf8'); // 重写 runtime/index.js
+        fsExtra.writeFileSync(`${targetRuntimePath}/index.js`, runtimeSource, 'utf8'); // 重写 runtime/generateAppJson.js
 
         // 2. inject to all js file
         const files = getAllJsFile(currentWorkPath, appConfig.ignore)
