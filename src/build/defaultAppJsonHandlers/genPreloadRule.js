@@ -1,11 +1,11 @@
-const {subPkgKey} = require("./genPages");
+const {getSubPkgsFromJson} = require('./utils')
 
 function getSubAppPreloadRule(subAppConfig) {
     const namespace = subAppConfig.namespace;
     const oldPreloadRule = subAppConfig.appJson.preloadRule;
 
     const newPreloadRule = {}
-    const subPackages = subAppConfig.appJson[subPkgKey];
+    const subPackages = getSubPkgsFromJson(subAppConfig.appJson);
 
     // https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html
     // preloadRule 格式

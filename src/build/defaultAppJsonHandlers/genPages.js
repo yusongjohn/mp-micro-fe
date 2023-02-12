@@ -1,7 +1,6 @@
-const subPkgKey = 'subPackages';
+const {getSubPkgsFromJson} = require('./utils')
 
 module.exports = {
-    subPkgKey,
     genSubPages: function (appsConfig, finalAppJson) {
         const subApps = appsConfig.filter(appConfig => appConfig.namespace);
 
@@ -20,12 +19,12 @@ module.exports = {
 
         const mainAppJson = appsConfig[0].appJson;
         // ths sub packages of the main app.
-        const subPkgsOfMain = mainAppJson[subPkgKey] || [];
+        const subPkgsOfMain = getSubPkgsFromJson(mainAppJson)
         // the sub packages of all the sub apps.
         const subAppSubPkgs = []
         subApps.forEach((appConfig) => {
             const subAppJson = appConfig.appJson
-            const _tmp = subAppJson[subPkgKey] || [];
+            const _tmp = getSubPkgsFromJson(subAppJson)
             _tmp.forEach(subPkg => {
                 subPkg.root = `${appConfig.namespace}/${subPkg.root}`;
                 return subPkg
@@ -33,6 +32,6 @@ module.exports = {
             subAppSubPkgs.push(..._tmp)
         });
         // collect all sub packages, then update the subPackages's value in mainAppJson
-        finalAppJson[subPkgKey] = subPkgsOfMain.concat(subAppSubPkgs)
+        finalAppJson['subPackages'] = subPkgsOfMain.concat(subAppSubPkgs)
     }
 }

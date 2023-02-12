@@ -1,4 +1,4 @@
-const {subPkgKey} = require('./genPages')
+const {getSubPkgsFromJson} = require('./utils')
 
 module.exports = function (appsConfig, finalAppJson) {
     const mainAppJsPlugins = appsConfig[0].appJson.plugins || {};
@@ -15,7 +15,7 @@ module.exports = function (appsConfig, finalAppJson) {
     // 同一个插件不能被多个分包引用，见 https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/using.html
     // 注意：这里假定别名和插件名称一致，小程序开发者工具都会对二者都进行校验
     const sharedPlugins = {};
-    const finalSubPkgs = finalAppJson[subPkgKey];
+    const finalSubPkgs = getSubPkgsFromJson(finalAppJson);
 
     const map = {}
     finalSubPkgs.forEach(function (subPkg) {
