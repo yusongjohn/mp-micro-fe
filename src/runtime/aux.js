@@ -30,17 +30,16 @@ routerMethods.handler = function (methodName, rest, injectInfo) {
     }
 }
 
-// 如果开发者注意命名规则，可以不改写，其实我倾向非必要不改写
+// If the developer pays attention to the naming rules, they don't have to, and I prefer not to
 storageMethods.handler = function (methodName, rest, injectInfo) {
-    // TODO 为了防止缓存数据冲突，应该要对缓存数据的key做处理
-    // 比如类似处理
+    // TODO In order to prevent cached data from colliding, the key of cached data should be handled
     // ["setStorageSync", "getStorageSync", "removeStorageSync", "clearStorageSync"]
     // ["setStorage", "getStorage", "removeStorage", "clearStorage"]
     if (methodName === 'setStorageSync') {
         console.log('storageMethods', key, rest)
     }
 
-    // clearStorage 也要完全改写，逐个删除，否则会影响其他应用
+    // clearStorage must also be completely rewritten. Otherwise, other applications will be affected
 }
 
 module.exports = {

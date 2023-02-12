@@ -32,7 +32,6 @@ module.exports = {
                 } else {
                     localPath = path.resolve(path.dirname(parentLocalPath), referencePath)
                 }
-                // 全部转为相对路径的相对
                 referencePath = path.relative(currentWorkPath, localPath);
             } catch (e) {
             }

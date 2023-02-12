@@ -19,7 +19,7 @@ const handler = function (appConfig) {
 
 const stepsCount = 6;
 module.exports = function compile(configFilePath, intercepts) {
-    // 需要校验 intercepts 参数是否合法，暂不处理
+    // The intercepts parameter needs to be verified. Do not handle it for now
     if (!intercepts) intercepts = {};
 
     // 1. get the compile config

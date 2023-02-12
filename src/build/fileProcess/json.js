@@ -19,8 +19,8 @@ function travelUsingComponents(mpJson, projectTargetPath, parentFilePath, afterH
 
         usingComponents[componentTag] = referencePath;
 
-        // 组件引用的组件
         const componentJson = fsExtra.readJsonSync(`${localPath}.json`);
+        // case 3: components referenced by components
         travelUsingComponents(componentJson, projectTargetPath, parentFilePath, afterHandler)
     }
     afterHandler && afterHandler(mpJson, parentFilePath)
@@ -32,12 +32,11 @@ module.exports = {
         const projectTargetPath = appConfig.projectTargetPath;
         const appJsonPath = path.resolve(appConfig.projectTargetPath, 'app.json');
 
-        // 1. 先是将所有的usingComponents中的路径都修改，
-        // 全局组件，页面引用，组件引用
+        // case 1: global components
         travelUsingComponents(appConfig.appJson, projectTargetPath, appJsonPath)
         const globalComponents = appConfig.appJson.usingComponents;
 
-        // 页面
+        // case 2: components referenced by pages
         const allPages = appConfig.allPages || [];
         allPages.forEach(function (page) {
             const pageJsonPath = path.resolve(projectTargetPath, `${page}.json`);

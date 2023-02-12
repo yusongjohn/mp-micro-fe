@@ -24,7 +24,7 @@ module.exports = {
         const appWxssPath = path.resolve(projectTargetPath, 'app.wxss');
         if (!fsExtra.pathExistsSync(appWxssPath)) return;
 
-        // 复制一份 应用 app.wxss
+        // Make a copy
         const targetAppWxssPath = path.resolve(projectTargetPath, `app.${appConfig.id}.wxss`);
         fsExtra.moveSync(appWxssPath, targetAppWxssPath);
 
@@ -35,7 +35,7 @@ module.exports = {
             let pageWxss = fsExtra.readFileSync(pageWxssPath, 'utf8');
             const relativePath = path.relative(path.dirname(pageWxssPath), targetAppWxssPath)
 
-            // 相对路径引入
+            // import with the relative path at the begging of the file
             pageWxss = [`@import "${relativePath}";`, pageWxss,].join('\n');
             // 重写原先的page.wxss
             fsExtra.writeFileSync(pageWxssPath, pageWxss, 'utf8');

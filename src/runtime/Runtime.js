@@ -1,36 +1,39 @@
 const intercept = require("./interceptor");
 const {routerMethods, storageMethods} = require("./aux");
 
+// Logical layer's top object, equivalent to window object in the browser
 const logicGlobal = (Function("return this")())
 
 // injectInfo: pages、namespace
 module.exports = function Runtime(injectInfo) {
-    // 每个应用都是独立的
+    // Each application is independent
     const globalThisObj = {};
     const globalObj = {};
-    let app = {}; // 子应用的app对象，主应用依然通过App和getApp()设置和处理
+
+    // The child application's app object, the main application is still set and processed via App and getApp
+    let app = {};
 
     const {namespace} = injectInfo
     return {
-        logicGlobal, // 逻辑层顶层对象，相当于浏览器中的window
+        logicGlobal,
         global: globalObj,
         globalThis: globalThisObj,
         App: function (options) {
-            // 主应用直接调用 App
+            // main app
             if (!namespace) {
                 return App(options)
             }
-            // 子应用
+            // sub app
             intercept.registerLifecycle(options);
             Object.assign(app, options)
 
         },
         getApp: function () {
-            // 主应用
+            // main app
             if (!namespace) {
                 return getApp({allowDefault: true})
             }
-            // 子应用
+            // sub app
             return app;
 
         },
@@ -38,7 +41,6 @@ module.exports = function Runtime(injectInfo) {
             if (!namespace) {
                 return wx;
             }
-            // const proxyWx = {...wx} // 如果不支持Proxy，则只能逐个拷贝
             const proxyWx = {};
             const proxyMethods = [...routerMethods, ...storageMethods];
             proxyMethods.handler = function (key, rest) {

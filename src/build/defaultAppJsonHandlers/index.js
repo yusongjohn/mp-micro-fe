@@ -14,5 +14,7 @@ module.exports = [
     genPermission,
     genSubPages,
     genSubPackages,
-    genPlugins // 目前该方法依赖genSubPackages，因此要在其之后
+
+    // Ccurrently, the method relies on genSubPackages, so it comes after genSubPackages
+    genPlugins
 ]

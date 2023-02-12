@@ -7,19 +7,16 @@ function getSubAppPreloadRule(subAppConfig) {
     const newPreloadRule = {}
     const subPackages = getSubPkgsFromJson(subAppConfig.appJson);
 
-    // https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html
-    // preloadRule 格式
+    // the preloadRule format, see https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html
     for (let oldPagePath in oldPreloadRule) {
         const oldPreloadInfo = oldPreloadRule[oldPagePath];
-        // 直接修改oldVal上的packages中的包名
+        // directly change the package name in packages on oldVal
         const preloadPackages = oldPreloadInfo.packages || [];
         oldPreloadInfo.packages = preloadPackages.map(pkgNameOrRoot => {
             const isSubPackageRoot = subPackages.findIndex(pkgInfo => pkgInfo.root === pkgNameOrRoot);
             if (isSubPackageRoot >= 0) {
                 return `${namespace}/${pkgNameOrRoot}`
             }
-
-            // 注意 __APP__ 情况，由于子应用的pages也迁移到最终的主包中，因此这里不修改。
 
             return pkgNameOrRoot;
         })
@@ -36,10 +33,10 @@ module.exports = function (appsConfig, finalAppJson) {
     const preloadRuleOfMain = mainAppJson.preloadRule || {};
 
     const subAppsConfig = appsConfig.filter(appConfig => appConfig.namespace);
-    // 获取所有子应用的preloadRule
+    // gets all preload rules for all sub applications
     const subAppsPreloadRule = subAppsConfig.map(getSubAppPreloadRule);
     const subAppPreloadRules = {};
-    // 合并为一个对象，由于每个子应用的namespace不一样，因此不会冲突
+    // the namespace of each sub application is different, so there is no conflict
     subAppsPreloadRule.forEach(item => Object.assign(subAppPreloadRules, item))
 
     finalAppJson.preloadRule = {

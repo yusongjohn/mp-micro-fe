@@ -23,19 +23,23 @@ async function processSubApp(appConfig) {
 
 
 function processMainApp(appConfig) {
-    // 1. 防止主应用app.wxss影响子应用，同样删除主应用app.wxss（修改文件名为 app.xxx.wxss 就自动失效了），然后注入到主应用的所有页面中（组件不需要，组件默认受页面影响）
+    // 1. To prevent the main app.wxss from affecting child applications, delete the main app.wxss as well
+    // app.xxx.wxss is automatically invalidated and injected into all pages of the main application
+    // (not required by components, components are affected by pages by default)
     extendAppWxss(appConfig);
     extendAppWindow(appConfig);
-    delete appConfig.appJson.window; // 否则会影响其他子应用
+
+    // Otherwise, other sub-applications will be affected
+    delete appConfig.appJson.window;
 
     injectIsolationLogic(appConfig);
 }
 
 module.exports = function (appConfig, singleAppHandlers) {
     singleAppHandlers = singleAppHandlers || []
-    if (!appConfig.namespace) { // 主应用
+    if (!appConfig.namespace) { // main app
         processMainApp(appConfig)
-    } else { // 子应用
+    } else { // sub app
         processSubApp(appConfig)
     }
 
